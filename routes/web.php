@@ -49,8 +49,11 @@ Route::get('/home', function () {
 /************************************************************************************************************/
 
 // Restriste
-Route::get('/iclock/cdata', [iclockController::class, 'handshake']);
-Route::post('/iclock/cdata', [iclockController::class, 'receiveRecords']);
+Route::middleware(['iclock.auth'])->group(function () {
+    Route::get('/iclock/cdata', [iclockController::class, 'handshake']);
+    Route::post('/iclock/cdata', [iclockController::class, 'receiveRecords']);
 
-Route::get('/iclock/test', [iclockController::class, 'test']);
-Route::get('/iclock/getrequest', [iclockController::class, 'getrequest']);
+    Route::get('/iclock/test', [iclockController::class, 'test']);
+    Route::get('/iclock/getrequest', [iclockController::class, 'getrequest']);
+});
+
