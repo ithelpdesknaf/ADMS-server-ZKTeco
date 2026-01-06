@@ -63,6 +63,12 @@ Before you begin, ensure you have the following installed on your system:
     ./vendor/bin/sail npm install
     ```
 
+    After installing the dependencies, restart the containers for the server to start correctly:
+
+    ```bash
+    ./vendor/bin/sail restart
+    ```
+
 3. **Configure the environment:**
 
     Copy the `.env.example` file to `.env`:

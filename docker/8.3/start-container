@@ -22,5 +22,10 @@ if [ $# -gt 0 ]; then
         exec gosu $WWWUSER "$@"
     fi
 else
-    exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
+    if [ ! -f "/var/www/html/vendor/autoload.php" ]; then
+        echo "Dependencies not yet installed. Please run 'sail composer install' and then 'sail restart'."
+        tail -f /dev/null
+    else
+        exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
+    fi
 fi
