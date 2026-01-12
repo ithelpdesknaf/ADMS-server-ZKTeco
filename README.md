@@ -46,157 +46,53 @@ To ensure the security and integrity of the data, it is essential to protect the
 Before you begin, ensure you have the following installed on your system:
 
 -   Git
--   Apache
--   PHP
--   Node.js
--   MySQL
+-   Docker
 
-## Setting up the Server
+## Docker Setup
 
-### Installing PHP and Required Extensions
-
-1. Update your package manager:
-
-    ```
-    sudo apt update
-    ```
-
-2. Install PHP and required extensions:
-
-    ```
-    sudo apt install php php-cli php-fpm php-json php-common php-mysql php-zip php-gd php-mbstring php-curl php-xml php-pear php-bcmath
-    ```
-
-3. Verify PHP installation:
-    ```
-    php -v
-    ```
-
-### Installing Composer
-
-1. Download Composer:
-
-    ```
-    curl -sS https://getcomposer.org/installer | php
-    ```
-
-2. Move Composer to a global location:
-
-    ```
-    sudo mv composer.phar /usr/local/bin/composer
-    ```
-
-3. Verify Composer installation:
-    ```
-    composer --version
-    ```
-
-### Install Node
-Install node via NVM (Node Version Manager)
-Install NVM:
-
-```bash
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-```
-
-Load NVM and install the latest LTS version of Node.js:
-
-```bash
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-source ~/.bashrc
-nvm install --lts
-nvm use --lts
-nvm alias default 'lts/*'
-```
-
-### Installing MySQL
-
-1. Install MySQL:
-
-    ```
-    sudo apt install mysql-server
-    ```
-
-2. Secure the MySQL installation:
-
-    ```
-    sudo mysql_secure_installation
-    ```
-
-    Follow the prompts to set a root password and configure other security settings.
-
-3. Verify MySQL installation:
-
-    ```
-    mysql -u root -p
-    ```
-
-## Cloning the Repository
-
-1. Open your terminal and navigate to the directory where you want to clone the project.
-2. Clone the repository:
+1. **Build and start the containers:**
 
     ```bash
-    git clone repo_url
-    cd project_name
+    ./vendor/bin/sail up -d --build
     ```
 
-## Installing Dependencies
-
-1. Install the required PHP dependencies using Composer:
+2. **Install dependencies:**
 
     ```bash
-    composer install
+    ./vendor/bin/sail composer install
+    ./vendor/bin/sail npm install
     ```
 
-2. Install the required JavaScript dependencies using npm:
+    After installing the dependencies, restart the containers for the server to start correctly:
 
     ```bash
-    npm install
+    ./vendor/bin/sail restart
     ```
 
-## Configuring the Environment
+3. **Configure the environment:**
 
-1. Copy the `.env.example` file to `.env`:
+    Copy the `.env.example` file to `.env`:
 
     ```bash
     cp .env.example .env
     ```
 
-2. Open the `.env` file and update the following environment variables:
+    Update the `.env` file with your database credentials and other settings. The default configuration should work with the Docker setup.
 
-    ```
-    DB_CONNECTION=mysql
-    DB_HOST=127.0.0.1
-    DB_PORT=3306
-    DB_DATABASE=adms
-    DB_USERNAME=root
-    DB_PASSWORD=your_mysql_password
-    ```
-3. Generate key
+4. **Generate the application key:**
 
     ```bash
-    php artisan key:generate
+    ./vendor/bin/sail artisan key:generate
     ```
 
-## Migrating the Database
-
-1. Run the database migrations:
+5. **Run database migrations:**
 
     ```bash
-    php artisan migrate
+    ./vendor/bin/sail artisan migrate
     ```
 
-## Serving the Application
+The application will be available at `http://localhost:8080`.
 
-1. Start the development server:
-
-    ```bash
-    php artisan serve
-    ```
-
-    The application should now be accessible at `http://localhost:8000`.
 
 ## Deploying to Production
 

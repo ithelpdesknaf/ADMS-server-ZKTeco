@@ -66,5 +66,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'admin' => \App\Http\Middleware\AdminMiddleware::class,
         'changePwd' => \App\Http\Middleware\ForceToChangePassword::class,
+        'iclock.auth' => \App\Http\Middleware\IClockAuthMiddleware::class,
     ];
 }
